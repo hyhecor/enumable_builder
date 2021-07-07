@@ -1,7 +1,6 @@
 package enumable_test
 
 import (
-	"fmt"
 	"testing"
 
 	enumable "github.com/hyhecor/enumable_builder/test"
@@ -10,19 +9,19 @@ import (
 func TestAppend(t *testing.T) {
 
 	var (
-		item_0 int
-		item_1 int
-		item_2 int
-		item_3 int
-		item_4 int
-		item_5 int
-		item_6 int
-		item_7 int
-		item_8 int
-		item_9 int
+		item_0 int = 0
+		item_1 int = 1
+		item_2 int = 2
+		item_3 int = 3
+		item_4 int = 4
+		item_5 int = 5
+		item_6 int = 6
+		item_7 int = 7
+		item_8 int = 8
+		item_9 int = 9
 	)
 
-	arr := enumable.SliceInt{
+	arr := enumable.CreateLazyInt(
 		item_0,
 		item_1,
 		item_2,
@@ -33,36 +32,25 @@ func TestAppend(t *testing.T) {
 		item_7,
 		item_8,
 		item_9,
-	}
+	)
 
-	arr = arr.Append(item_0)
-	arr = arr.Append(item_1)
-	arr = arr.Append(item_2)
-	arr = arr.Append(item_3)
-	arr = arr.Append(item_4)
-	arr = arr.Append(item_5)
-	arr = arr.Append(item_6)
-	arr = arr.Append(item_7)
-	arr = arr.Append(item_8)
-	arr = arr.Append(item_9)
+	arr = arr.Append(enumable.CreateLazyInt(item_0))
+	arr = arr.Append(enumable.CreateLazyInt(item_1))
+	arr = arr.Append(enumable.CreateLazyInt(item_2))
+	arr = arr.Append(enumable.CreateLazyInt(item_3))
+	arr = arr.Append(enumable.CreateLazyInt(item_4))
+	arr = arr.Append(enumable.CreateLazyInt(item_5))
+	arr = arr.Append(enumable.CreateLazyInt(item_6))
+	arr = arr.Append(enumable.CreateLazyInt(item_7))
+	arr = arr.Append(enumable.CreateLazyInt(item_8))
+	arr = arr.Append(enumable.CreateLazyInt(item_9))
 
-	if 20 != len(arr) {
-		t.Errorf("Expect len=%d Actual=%d", 20, len(arr))
-	}
+	count := arr.Count()
+	t.Logf("Count=%d\n", count)
 
-	arrf := arr.Fold(0, func(a, b int) int {
+	fold := arr.Fold(0, func(a, b int) int {
 		return a + b
 	})
 
-	if 0 != arrf {
-		t.Errorf("Expect len=%d Actual=%d", 0, arrf)
-	}
-
-	arrD := arr.MapString(func(item int) string {
-		return fmt.Sprintf("%d", item)
-	})
-
-	for _, v := range arrD {
-		t.Log(v)
-	}
+	t.Logf("%d\n", fold)
 }
